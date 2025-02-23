@@ -12,16 +12,20 @@ def play_game():
     display()  # display initial board 
     won = False 
     count = 0 
+# loop until there is a winner or when the board is full
     while count < 9 and not won: 
         handle_turn(count)
         count += 1 
+         # check the board after every player's turn 
         if check_win(board):
             won = True 
+# output result
     if won: 
         return winner + ' has won the game!'
     else: 
         return 'draw'
-     
+
+#handle user's input and fill in the board 
 def handle_turn(count):
     position = int(input("Enter board position from 1-9: "))
     if board[position - 1] != '-':
@@ -31,19 +35,20 @@ def handle_turn(count):
         if count % 2 == 0: 
             board[position - 1] = "X"
         else: 
-            board[position - 1] = "O"  # Changed from '0' (zero) to 'O' (letter) for clarity.
+            board[position - 1] = "O"  
         display()
     
 def check_win(board):
     global winner 
-    # Check horizontal rows (previously named check_vertical)
+    # Check horizontal rows 
     def check_rows(): 
         global winner 
         for i in range(0, 9, 3): 
             if board[i] != '-' and board[i] == board[i+1] == board[i+2]: 
-                winner = board[i]  # Fixed: previously set to [i] (a list), now correctly set to the winning symbol.
+                winner = board[i] 
                 return True 
-        return False     
+        return False  
+             
     # Check diagonal lines
     def check_diagonals():
         global winner
@@ -54,7 +59,8 @@ def check_win(board):
             winner = board[2]
             return True
         return False
-    # Check vertical columns (previously named check_horizontal)
+             
+    # Check vertical columns 
     def check_columns(): 
         global winner 
         for i in range(3): 
@@ -62,7 +68,7 @@ def check_win(board):
                 winner = board[i]
                 return True 
         return False 
-
+# check if there is a winner
     if check_rows() or check_columns() or check_diagonals():
         return True 
     return False
